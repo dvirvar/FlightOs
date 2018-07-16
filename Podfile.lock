@@ -1,0 +1,36 @@
+PODS:
+  - ImageSlideshow (1.5.3):
+    - ImageSlideshow/Core (= 1.5.3)
+  - ImageSlideshow/Core (1.5.3)
+  - ImageSlideshow/SDWebImage (1.5.3):
+    - ImageSlideshow/Core
+    - SDWebImage (< 5.0, >= 3.7)
+  - lottie-ios (2.5.0)
+  - SDWebImage (4.3.3):
+    - SDWebImage/Core (= 4.3.3)
+  - SDWebImage/Core (4.3.3)
+  - SwiftSoup (1.7.1)
+
+DEPENDENCIES:
+  - ImageSlideshow (~> 1.4)
+  - ImageSlideshow/SDWebImage
+  - lottie-ios
+  - SDWebImage (~> 4.0)
+  - SwiftSoup
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - ImageSlideshow
+    - lottie-ios
+    - SDWebImage
+    - SwiftSoup
+
+SPEC CHECKSUMS:
+  ImageSlideshow: 24a1184909f589379ba2527ebcc77996881bb1f2
+  lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
+  SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
+  SwiftSoup: 277f7ef548826e0ca7603a06b30d4a5df3ee0587
+
+PODFILE CHECKSUM: 1ed7ed62b24ec9d42943134711ca5bbb1ffd5ebc
+
+COCOAPODS: 1.5.0
