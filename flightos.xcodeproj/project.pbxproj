@@ -118,34 +118,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04356F7320D4FE6A00F94E15 /* TableViewCell */ = {
+		04356F7320D4FE6A00F94E15 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				043C0C0120CAAA8C000E3975 /* FilterTableViewCell.swift */,
 				0473593820BC906000A853FC /* FirstTableViewCell.swift */,
 				04FACCE020C186B70087665A /* SecondTableViewCell.swift */,
 				04FACCE220C186C80087665A /* ThirdTableViewCell.swift */,
 			);
-			path = TableViewCell;
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
-		04356F7420D4FE9500F94E15 /* CollectionViewCell */ = {
+		04356F7420D4FE9500F94E15 /* CollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
 				0473593A20BC907700A853FC /* FirstCollectionViewCell.swift */,
 				04FACCDC20C186860087665A /* SecoundCollectionViewCell.swift */,
 				04FACCDE20C1869F0087665A /* ThirdCollectionViewCell.swift */,
 			);
-			path = CollectionViewCell;
+			path = CollectionViewCells;
 			sourceTree = "<group>";
 		};
-		04356F7520D4FEB000F94E15 /* ViewController */ = {
+		04356F7520D4FEB000F94E15 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				0473592820BC8FC200A853FC /* ViewController.swift */,
 				045BF51120C3D2E2003BB87E /* HotelViewController.swift */,
 				045BF51320C40B42003BB87E /* FlightsViewController.swift */,
 				04F48CF420C54F0300429AB0 /* IsraelViewController.swift */,
+				04F6BB4620D0159F00E59B11 /* MainStartViewController.swift */,
+				046012EF20CFCECC002B1D31 /* PaymentViewController.swift */,
+				04F6BB4420D00E5700E59B11 /* ThankuViewController.swift */,
 			);
-			path = ViewController;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		0473591A20BC8FC100A853FC = {
@@ -171,18 +176,13 @@
 			isa = PBXGroup;
 			children = (
 				0473592620BC8FC200A853FC /* AppDelegate.swift */,
-				0473592820BC8FC200A853FC /* ViewController.swift */,
 				0473592A20BC8FC200A853FC /* Main.storyboard */,
 				0473592F20BC8FC400A853FC /* LaunchScreen.storyboard */,
 				0473593220BC8FC400A853FC /* Info.plist */,
-				04356F7520D4FEB000F94E15 /* ViewController */,
-				04356F7420D4FE9500F94E15 /* CollectionViewCell */,
-				04356F7320D4FE6A00F94E15 /* TableViewCell */,
+				04356F7520D4FEB000F94E15 /* ViewControllers */,
+				04356F7420D4FE9500F94E15 /* CollectionViewCells */,
+				04356F7320D4FE6A00F94E15 /* TableViewCells */,
 				043C0BFF20CAA752000E3975 /* Classes.swift */,
-				043C0C0120CAAA8C000E3975 /* FilterTableViewCell.swift */,
-				04F6BB4620D0159F00E59B11 /* MainStartViewController.swift */,
-				046012EF20CFCECC002B1D31 /* PaymentViewController.swift */,
-				04F6BB4420D00E5700E59B11 /* ThankuViewController.swift */,
 				0473592D20BC8FC400A853FC /* Assets.xcassets */,
 				0452FBEE20E13F0A006D5CBC /* sky.json */,
 				04F6BB4820D0167000E59B11 /* Plane.json */,

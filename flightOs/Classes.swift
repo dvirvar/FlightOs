@@ -1,6 +1,5 @@
 //
 //  Classes.swift
-//  testTableView2
 //
 //  Created by Mimram on 6/8/18.
 //  Copyright © 2018 Mimram. All rights reserved.
@@ -8,9 +7,7 @@
 
 import UIKit
 
-
-
-struct Hotels {
+struct Hotel{
     let hotelName: String
     
     let cityHotel: String
@@ -34,13 +31,13 @@ struct Hotels {
     let returnDateTo: String
     let returnTimeTo: String
     
-    let typeof: String
+    let typeOf: String
     let description: String
     let imageHotel: String
     let photos: [String]
 }
 
-struct IsraelHotels {
+struct IsraelHotel {
     let hotelName : String
     let priceBundle : String
     let checkinDate : String

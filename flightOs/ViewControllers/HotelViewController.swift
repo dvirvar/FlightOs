@@ -1,6 +1,5 @@
 //
 //  HotelViewController.swift
-//  testTableView2
 //
 //  Created by Mimram on 6/3/18.
 //  Copyright © 2018 Mimram. All rights reserved.
@@ -10,7 +9,7 @@ import UIKit
 import ImageSlideshow
 
 class HotelViewController: UIViewController {
-    var hotel : Hotels!
+    var hotel : Hotel!
     
     @IBOutlet weak var mainHotelCover: UIImageView!
     @IBOutlet weak var mainRatingHotel: UIImageView!
@@ -47,7 +46,6 @@ class HotelViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         mainNameHotel.text = hotel.hotelName
         mainRatingHotel.image = hotel.ratingStar
         mainDescription.text = hotel.description
@@ -84,8 +82,7 @@ class HotelViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destintion = segue.destination as? PaymentViewController{
-            
-            destintion.checkinprice = priceBundle.text!
+            destintion.checkinPrice = priceBundle.text!
             destintion.locationCountry = returnCityFrom.text!
         }
     }

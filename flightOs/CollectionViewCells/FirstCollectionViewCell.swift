@@ -1,6 +1,5 @@
 //
 //  FirstCollectionViewCell.swift
-//  testTableView2
 //
 //  Created by Mimram on 5/28/18.
 //  Copyright © 2018 Mimram. All rights reserved.
@@ -9,7 +8,6 @@
 import UIKit
 
 class FirstCollectionViewCell: UICollectionViewCell {
-    
     
     @IBOutlet weak var hotelPhoto: UIImageView!
     @IBOutlet weak var hotelName: UILabel!

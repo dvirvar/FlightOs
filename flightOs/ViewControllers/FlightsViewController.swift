@@ -1,6 +1,5 @@
 //
 //  FlightsViewController.swift
-//  testTableView2
 //
 //  Created by Mimram on 6/3/18.
 //  Copyright © 2018 Mimram. All rights reserved.
@@ -9,11 +8,11 @@
 import UIKit
 import ImageSlideshow
 class FlightsViewController: UIViewController {
-    var flights : Hotels!
+    var flights : Hotel!
     
     @IBOutlet weak var mainCountryImage: UIImageView!
     @IBOutlet weak var mainCountryName: UILabel!
-    @IBOutlet weak var MainStatus: UILabel!
+    @IBOutlet weak var mainStatus: UILabel!
     @IBOutlet weak var mainDescripition: UITextView!
     
     @IBOutlet weak var departureCityFrom: UILabel!
@@ -75,7 +74,7 @@ class FlightsViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? PaymentViewController{
-            destination.checkinprice = priceBundle.text!
+            destination.checkinPrice = priceBundle.text!
             destination.locationCountry = returnCityFrom.text!
         }
     }

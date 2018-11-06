@@ -11,13 +11,13 @@ import ImageSlideshow
 
 class IsraelViewController: UIViewController {
     
-    var israel : IsraelHotels!
+    var israel : IsraelHotel!
     
     @IBOutlet weak var hotelName: UILabel!
     @IBOutlet weak var priceBundle: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var returnDateTo: UILabel!
-    @IBOutlet weak var Israeldescription: UITextView!
+    @IBOutlet weak var israelDescription: UITextView!
     @IBOutlet weak var israelStatus: UILabel!
     @IBOutlet weak var israelMainImage: UIImageView!
     
@@ -32,9 +32,9 @@ class IsraelViewController: UIViewController {
         priceBundle.text = israel.priceBundle
         date.text = israel.checkinDate
         returnDateTo.text = israel.returnDate
-        Israeldescription.text = israel.description
+        israelDescription.text = israel.description
         
-        let imageslide = ImageSlideshow(frame: israelMainImage.frame)
+        let imageSlide = ImageSlideshow(frame: israelMainImage.frame)
         var inputs = [SDWebImageSource]()
         if !israel.photos.isEmpty{
             for image in israel.photos{
@@ -43,16 +43,16 @@ class IsraelViewController: UIViewController {
         }else{
             inputs.append(SDWebImageSource(url: URL(string: israel.mainImage)!))
         }
-        imageslide.setImageInputs(inputs)
-        imageslide.contentScaleMode = .scaleAspectFill
-        view.viewWithTag(3)?.addSubview(imageslide)
-        imageslide.zoomEnabled = true
+        imageSlide.setImageInputs(inputs)
+        imageSlide.contentScaleMode = .scaleAspectFill
+        view.viewWithTag(3)?.addSubview(imageSlide)
+        imageSlide.zoomEnabled = true
         
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? PaymentViewController{
-            destination.checkinprice = priceBundle.text!
+            destination.checkinPrice = priceBundle.text!
             destination.locationCountry = hotelName.text!
         }
     }

@@ -1,6 +1,5 @@
 //
 //  ViewController.swift
-//  testTableView2
 //
 //  Created by Mimram on 5/28/18.
 //  Copyright © 2018 Mimram. All rights reserved.
@@ -20,7 +19,6 @@ class ViewController: UIViewController {
     
     // Filter:
     @IBAction func searchBar(_ sender: UITextField) {
-        
         if !sender.text!.isEmpty{
             filterView.alpha = 1
             let type = sender.text!
@@ -35,17 +33,17 @@ class ViewController: UIViewController {
         }
     }
     
-    var hotelDeals : [Hotels]!
-    var flightBundles : [Hotels]!
-    var israelHotels : [IsraelHotels]!
-    var all : [Hotels]!
-    var filtered : [Hotels]!
+    var hotelDeals : [Hotel]!
+    var flightBundles : [Hotel]!
+    var israelHotels : [IsraelHotel]!
+    var all : [Hotel]!
+    var filtered : [Hotel]!
     var counterCr = 0
     var counterDS = 0
     var flagFilter = false
-    let maxItemInRow = 4
-    let maxRowInSection = 12
-    let maxObjInArray = 16
+    let maxItemsInRow = 4 //free to play
+    let maxRowsInMainTableView = 11 //free to play | 11 so the 12th row won't be empty because there are only 12 hotels | Only if maxItemsInRow = 4
+    let maxObjInArray = 15 //free to play | hotelDeals max = 15 | flightBundles max = 14 | israelHotels max = 12 || Derived info from their sites.
     var hotelDealsFinished = false
     var flightBundlesFinished = false
     var israelHotelsFinished = false
@@ -83,8 +81,6 @@ class ViewController: UIViewController {
         loadingPlane.frame = CGRect(x: 0, y: -90, width: mainTableView.frame.width, height: 250)
         skyBackground.translatesAutoresizingMaskIntoConstraints = true
         skyBackground.frame = CGRect(x: 0, y: -90, width: 420, height: 158)
-
-        
     }
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl){
@@ -170,7 +166,7 @@ class ViewController: UIViewController {
                             let script = try bundle.select("script").array()[0].html()
                             
                             let shareLink = script.components(separatedBy: "shareLink: ")
-                            let orderPage = self.urlExtractor(string: shareLink[1].trimmingCharacters(in: .whitespaces), startIndex: 1, endIndex: -4).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+                            let orderPage = self.stringCutter(string: shareLink[1].trimmingCharacters(in: .whitespaces), startIndex: 1, endIndex: -4).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
                             let orderPageUrl = try String(contentsOf: URL(string: orderPage)!, encoding: .utf8)
                             let parsedOrderHtml = try SwiftSoup.parse(orderPageUrl)
                             let topHeader = try parsedOrderHtml.select("header.top-header")
@@ -188,7 +184,7 @@ class ViewController: UIViewController {
                                 photos.append(photoUrl)
                             }
                             
-                            let hotelDeal = Hotels(hotelName: hotelName, cityHotel: cityHotel, priceBundle: String(price), priceFor2People: priceFor2, ratingStar: starRatingPhoto, numOfNight: nights, departureCityFrom: departureFrom.city, departureDateFrom: departureFrom.date, departureTimeFrom: departureFrom.time, departureCityTo: departureTo.city, departureDateTo: departureTo.date, departureTimeTo: departureTo.time, returnCityFrom: returnFrom.city, returnDateFrom: returnFrom.date, returnTimeFrom: returnFrom.time, returnCityTo: returnTo.city,  returnDateTo: returnTo.date, returnTimeTo: returnTo.time, typeof: "טיסה + מלון", description: description, imageHotel: imageHotel, photos: photos)
+                            let hotelDeal = Hotel(hotelName: hotelName, cityHotel: cityHotel, priceBundle: String(price), priceFor2People: priceFor2, ratingStar: starRatingPhoto, numOfNight: nights, departureCityFrom: departureFrom.city, departureDateFrom: departureFrom.date, departureTimeFrom: departureFrom.time, departureCityTo: departureTo.city, departureDateTo: departureTo.date, departureTimeTo: departureTo.time, returnCityFrom: returnFrom.city, returnDateFrom: returnFrom.date, returnTimeFrom: returnFrom.time, returnCityTo: returnTo.city,  returnDateTo: returnTo.date, returnTimeTo: returnTo.time, typeOf: "טיסה + מלון", description: description, imageHotel: imageHotel, photos: photos)
                             self.hotelDeals.append(hotelDeal)
                             self.all.append(hotelDeal)
                             DispatchQueue.main.async {
@@ -232,7 +228,7 @@ class ViewController: UIViewController {
                             departureCityFrom += String(string) + " "
                         }
                         
-                        let departureDateFrom = self.urlExtractor(string: try dparture.select("span.flight-takeoff").select("div.date").text(), startIndex: 0, endIndex: -5)
+                        let departureDateFrom = self.stringCutter(string: try dparture.select("span.flight-takeoff").select("div.date").text(), startIndex: 0, endIndex: -5)
                         let departureTimeFrom = try dparture.select("span.flight-takeoff").select("div.date").select("span").text()
                         let departureSCandCityTo = try dparture.select("span.flight-landing").select("div.city").text().split(separator: " ")
                         
@@ -241,10 +237,10 @@ class ViewController: UIViewController {
                             departureCityTo += String(string) + " "
                         }
                         
-                        let departureDateTo = self.urlExtractor(string: try dparture.select("span.flight-landing").select("div.date").text(), startIndex: 0, endIndex: -5)
+                        let departureDateTo = self.stringCutter(string: try dparture.select("span.flight-landing").select("div.date").text(), startIndex: 0, endIndex: -5)
                         let departureTimeTo = try dparture.select("span.flight-landing").select("div.date").select("span").text()
                         
-                        let returnDateFrom = self.urlExtractor(string: try returnFlight.select("span.flight-takeoff").select("div.date").text(), startIndex: 0, endIndex: -5)
+                        let returnDateFrom = self.stringCutter(string: try returnFlight.select("span.flight-takeoff").select("div.date").text(), startIndex: 0, endIndex: -5)
                         let returnTimeFrom = try returnFlight.select("span.flight-takeoff").select("div.date").select("span").text()
                         let returnSCandCityFrom = try returnFlight.select("span.flight-takeoff").select("div.city").text().split(separator: " ")
                         
@@ -260,10 +256,10 @@ class ViewController: UIViewController {
                             returnCityTo += String(string) + " "
                         }
                         
-                        let returnDateTo = self.urlExtractor(string: try returnFlight.select("span.flight-landing").select("div.date").text(), startIndex: 0, endIndex: -5)
+                        let returnDateTo = self.stringCutter(string: try returnFlight.select("span.flight-landing").select("div.date").text(), startIndex: 0, endIndex: -5)
                         let returnTimeTo = try returnFlight.select("span.flight-landing").select("div.date").select("span").text()
                         
-                        let flightBundle = Hotels(hotelName: "", cityHotel: countryName, priceBundle: String(price), priceFor2People: "", ratingStar: UIImage(), numOfNight: "", departureCityFrom: departureCityFrom, departureDateFrom: departureDateFrom, departureTimeFrom: departureTimeFrom, departureCityTo: departureCityTo, departureDateTo: departureDateTo, departureTimeTo: departureTimeTo, returnCityFrom: returnCityFrom, returnDateFrom: returnDateFrom, returnTimeFrom: returnTimeFrom, returnCityTo: returnCityTo, returnDateTo: returnDateTo, returnTimeTo: returnTimeTo, typeof: "טיסה", description: "", imageHotel: flightImage, photos: [])
+                        let flightBundle = Hotel(hotelName: "", cityHotel: countryName, priceBundle: String(price), priceFor2People: "", ratingStar: UIImage(), numOfNight: "", departureCityFrom: departureCityFrom, departureDateFrom: departureDateFrom, departureTimeFrom: departureTimeFrom, departureCityTo: departureCityTo, departureDateTo: departureDateTo, departureTimeTo: departureTimeTo, returnCityFrom: returnCityFrom, returnDateFrom: returnDateFrom, returnTimeFrom: returnTimeFrom, returnCityTo: returnCityTo, returnDateTo: returnDateTo, returnTimeTo: returnTimeTo, typeOf: "טיסה", description: "", imageHotel: flightImage, photos: [])
                         self.flightBundles.append(flightBundle)
                         self.all.append(flightBundle)
                         
@@ -314,7 +310,7 @@ class ViewController: UIViewController {
                             }
                         }
                         
-                        self.israelHotels.append(IsraelHotels(hotelName: hotelName, priceBundle: price, checkinDate: checkinDate, returnDate: returnDate, description: description, mainImage: imageHotel!, photos: photos))
+                        self.israelHotels.append(IsraelHotel(hotelName: hotelName, priceBundle: price, checkinDate: checkinDate, returnDate: returnDate, description: description, mainImage: imageHotel!, photos: photos))
                         DispatchQueue.main.async {
                             self.mainTableView.reloadData()
                         }
@@ -327,7 +323,7 @@ class ViewController: UIViewController {
         }//Dispatch
     }
     
-    func urlExtractor(string:String, startIndex:Int, endIndex:Int)->String{
+    func stringCutter(string:String, startIndex:Int, endIndex:Int)->String{
         let start = string.index(string.startIndex, offsetBy: startIndex)
         let end = string.index(string.endIndex, offsetBy: endIndex)
         let range = start..<end
@@ -339,49 +335,47 @@ class ViewController: UIViewController {
         do{
             let newElement = try element.select(string)
             let city = try newElement.select("div.city").text()
-            let date = urlExtractor(string: try newElement.select("div.date").text(), startIndex: 0, endIndex: -5)
+            let date = stringCutter(string: try newElement.select("div.date").text(), startIndex: 0, endIndex: -5)
             let time = try newElement.select("span.time").text()
             return (city,date,time)
         }catch{
         }
         return ("","","")
     }
-    
 }
 
 extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let tableViewRow = collectionView.tag / 3
+        
         if collectionView.tag % 3 == 0{
-            let fullRows = hotelDeals.count / maxItemInRow
+            let fullRows = hotelDeals.count / maxItemsInRow
 
             if fullRows > tableViewRow{
-                return maxItemInRow
+                return maxItemsInRow
             }else if fullRows == tableViewRow{
-                return hotelDeals.count % maxItemInRow
+                return hotelDeals.count % maxItemsInRow
             }else{
                 return 0
             }
-            
         } else if collectionView.tag % 3 == 1 {
-            let fullRows = flightBundles.count / maxItemInRow
+            let fullRows = flightBundles.count / maxItemsInRow
             
             if fullRows > tableViewRow{
-                return maxItemInRow
+                return maxItemsInRow
             }else if fullRows == tableViewRow{
-                return flightBundles.count % maxItemInRow
+                return flightBundles.count % maxItemsInRow
             }else{
                 return 0
             }
-            
         } else {
-            let fullRows = israelHotels.count / maxItemInRow
+            let fullRows = israelHotels.count / maxItemsInRow
             
             if fullRows > tableViewRow{
-                return maxItemInRow
+                return maxItemsInRow
             }else if fullRows == tableViewRow{
-                return israelHotels.count % maxItemInRow
+                return israelHotels.count % maxItemsInRow
             }else{
                 return 0
             }
@@ -392,9 +386,9 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
         counterCr = collectionView.tag/3
         
         if collectionView.tag % 3 == 0 {
+            let hotel = hotelDeals[indexPath.row + (counterCr * maxItemsInRow)]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "fccell", for: indexPath) as! FirstCollectionViewCell
             
-            let hotel = hotelDeals[indexPath.row + (counterCr * maxItemInRow)]
             cell.hotelName.text = hotel.hotelName
             cell.cityHotel.text = hotel.cityHotel
             cell.priceBundle.text = hotel.priceBundle
@@ -419,11 +413,10 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
             cell.returnTimeTo.text = hotel.returnTimeTo
             
             cell.hotelPhoto.sd_setImage(with: URL(string: hotel.imageHotel))
-            
             return cell
-        } else if collectionView.tag % 3 == 1 {
             
-            let flightIndex = flightBundles[indexPath.row + (counterCr * maxItemInRow)]
+        } else if collectionView.tag % 3 == 1 {
+            let flightIndex = flightBundles[indexPath.row + (counterCr * maxItemsInRow)]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sccell", for: indexPath) as! SecoundCollectionViewCell
             cell.countryLabel.text = flightIndex.cityHotel
             cell.priceLabel.text = flightIndex.priceBundle
@@ -431,8 +424,7 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
             return cell
             
         } else {
-            
-            let israelIndex = israelHotels[indexPath.row + (counterCr * maxItemInRow)]
+            let israelIndex = israelHotels[indexPath.row + (counterCr * maxItemsInRow)]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tccell", for: indexPath) as! ThirdCollectionViewCell
             cell.textLabel.text = israelIndex.hotelName
             cell.priceLabel.text = israelIndex.priceBundle
@@ -443,7 +435,7 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         counterDS = collectionView.tag/3
-        let myRow = indexPath.row + (counterDS * maxItemInRow)
+        let myRow = indexPath.row + (counterDS * maxItemsInRow)
         flagFilter = false
         if collectionView.tag % 3 == 0 {
             performSegue(withIdentifier: "masterdeatilshotel", sender: myRow)
@@ -452,11 +444,9 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
         } else if collectionView.tag % 3 == 2{
             performSegue(withIdentifier: "masterdataisrael", sender: myRow)
         }
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if let destintion = segue.destination as? HotelViewController{
             let selectedIndexpath = sender as? Int
             if !flagFilter{
@@ -487,7 +477,7 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
 extension ViewController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == 10 {
-            return maxRowInSection
+            return maxRowsInMainTableView
         } else if tableView.tag == 20{
             return filtered.count
         } else {
@@ -524,12 +514,12 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "filtercell", for: indexPath) as! FilterTableViewCell
-            cell.hotelname.text = filtered[indexPath.row].hotelName
+            cell.hotelName.text = filtered[indexPath.row].hotelName
             cell.countryHotel.text = filtered[indexPath.row].cityHotel
             cell.watchingNow.text = "צופים כעת: \(arc4random_uniform(10))"
             cell.price.text = filtered[indexPath.row].priceBundle
-            cell.typeOfVaction.text = filtered[indexPath.row].typeof
-            cell.imagehotel.sd_setImage(with: URL(string: filtered[indexPath.row].imageHotel))
+            cell.typeOfVaction.text = filtered[indexPath.row].typeOf
+            cell.imageHotel.sd_setImage(with: URL(string: filtered[indexPath.row].imageHotel))
             return cell
         }
     }
@@ -548,9 +538,9 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         flagFilter = true
-        if tableView.tag == 20 && filtered[indexPath.row].typeof == "טיסה + מלון"{
+        if tableView.tag == 20 && filtered[indexPath.row].typeOf == "טיסה + מלון"{
             performSegue(withIdentifier: "masterdeatilshotel", sender: indexPath.row)
-        }else if tableView.tag == 20 && filtered[indexPath.row].typeof == "טיסה"{
+        }else if tableView.tag == 20 && filtered[indexPath.row].typeOf == "טיסה"{
             performSegue(withIdentifier: "materdeatilsflight", sender: indexPath.row)
         }
     }
