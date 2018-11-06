@@ -50,7 +50,6 @@ class HotelViewController: UIViewController {
         
         mainNameHotel.text = hotel.hotelName
         mainRatingHotel.image = hotel.ratingStar
-        //        mainAdressHotel.text = hotel.hotelAddress
         mainDescription.text = hotel.description
         
         departureCityFrom.text = hotel.departureCityFrom

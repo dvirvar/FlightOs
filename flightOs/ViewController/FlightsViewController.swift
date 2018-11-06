@@ -40,7 +40,6 @@ class FlightsViewController: UIViewController {
         super.viewDidLoad()
         
         mainCountryName.text = flights.cityHotel
-        //        mainDescripition.text = flights.description
         
         departureCityFrom.text = flights.departureCityFrom
         departureDateFrom.text = flights.departureDateFrom

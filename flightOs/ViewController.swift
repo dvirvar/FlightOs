@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var mainTableView: UITableView!
     
-    // FILTER:
+    // Filter:
     @IBAction func searchBar(_ sender: UITextField) {
         
         if !sender.text!.isEmpty{
@@ -167,7 +167,7 @@ class ViewController: UIViewController {
                             let returnFrom = self.cityDateTime(element: returnDiv, string: "span.flight-takeoff")
                             let returnTo = self.cityDateTime(element: returnDiv, string: "span.flight-landing")
                             
-                            let script = try bundle.select("script").array()[1].html()
+                            let script = try bundle.select("script").array()[0].html()
                             
                             let shareLink = script.components(separatedBy: "shareLink: ")
                             let orderPage = self.urlExtractor(string: shareLink[1].trimmingCharacters(in: .whitespaces), startIndex: 1, endIndex: -4).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -214,6 +214,9 @@ class ViewController: UIViewController {
                 
                 for flight in flights{
                     let component = try flight.attr("component")
+                    if try flight.text().count < 10{
+                        continue
+                    }
                     if component == "promotions/packageMedium" && self.flightBundles.count < self.maxObjInArray{
                         let inner = try flight.select("div.inner")
                         let blockHover = try inner.select("div.block-hover")
@@ -286,7 +289,7 @@ class ViewController: UIViewController {
                 for hotel in hotels{
                     if self.israelHotels.count < self.maxObjInArray{
                         let imDiv = try hotel.select("div.im")
-                        let infoPage = try imDiv.select("a").attr("href") // t אחרי הלחיצה
+                        let infoPage = try imDiv.select("a").attr("href")
                         let imageHotel = try imDiv.select("img").attr("src").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
                         let dates = try imDiv.select("div.box-white").select("span").text().components(separatedBy: " - ")
                         let returnDate = dates[0]
@@ -302,7 +305,7 @@ class ViewController: UIViewController {
                         let details = try packageContent.select("div.details")
                         let description = try details.select("div.TextArea").text()
                         let photosUrl = try details.select("div.gallery").select("ul").select("li.hotelgallery").select("img")
-                        var imageFlag = false // להתחיל מהאינקדס השני של התמונה ולא ה0 ! 
+                        var imageFlag = false
                         for url in photosUrl{
                             if imageFlag{
                                 photos.append(try url.attr("src"))

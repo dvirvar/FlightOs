@@ -21,15 +21,9 @@ class IsraelViewController: UIViewController {
     @IBOutlet weak var israelStatus: UILabel!
     @IBOutlet weak var israelMainImage: UIImageView!
     
-    
-    
-    
-    //searchview
-    
     @IBAction func ordernowBtn(_ sender: UIButton) {
         performSegue(withIdentifier: "israelsegueto", sender: sender)
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,8 +33,6 @@ class IsraelViewController: UIViewController {
         date.text = israel.checkinDate
         returnDateTo.text = israel.returnDate
         Israeldescription.text = israel.description
-        
-        
         
         let imageslide = ImageSlideshow(frame: israelMainImage.frame)
         var inputs = [SDWebImageSource]()
